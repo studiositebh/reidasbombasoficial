@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { DollarSign, Package, ShoppingCart, Users, TrendingUp, TrendingDown } from "lucide-react";
+import { DollarSign, Package, ShoppingCart, Users, TrendingUp, TrendingDown, RefreshCw } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 interface DashboardStats {
   totalSales: number;
@@ -30,6 +32,31 @@ export default function Dashboard() {
     totalCustomers: 0,
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(false);
+
+  const handleSyncPasswords = async () => {
+    setIsSyncing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("sync-profiles-to-auth", {
+        method: "POST",
+      });
+      if (error) throw error;
+      toast({
+        title: "Sincronização concluída",
+        description: `Total: ${data.total} | Senhas resetadas: ${data.passwordReset} | Não encontrados: ${data.notFound}${data.errors?.length ? ` | Erros: ${data.errors.length}` : ""}`,
+      });
+      console.log("Sync results:", data);
+    } catch (err) {
+      console.error("Sync error:", err);
+      toast({
+        title: "Erro na sincronização",
+        description: (err as Error).message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   useEffect(() => {
     async function fetchStats() {
@@ -129,6 +156,20 @@ export default function Dashboard() {
 
   return (
     <AdminLayout title="Dashboard">
+      {/* Sync Button */}
+      <Card className="mb-6 border-dashed border-orange-300 bg-orange-50">
+        <CardContent className="p-4 flex items-center justify-between">
+          <div>
+            <p className="font-medium text-orange-800">Sincronizar senhas dos usuários</p>
+            <p className="text-sm text-orange-600">Reseta a senha de todos para: ReiDasBombas2024!</p>
+          </div>
+          <Button onClick={handleSyncPasswords} disabled={isSyncing} variant="outline" className="border-orange-400 text-orange-700 hover:bg-orange-100">
+            <RefreshCw className={`h-4 w-4 mr-2 ${isSyncing ? "animate-spin" : ""}`} />
+            {isSyncing ? "Sincronizando..." : "Sincronizar"}
+          </Button>
+        </CardContent>
+      </Card>
+
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
         {statCards.map((stat) => (
