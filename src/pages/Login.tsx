@@ -98,12 +98,22 @@ export default function Login() {
     setIsSyncingUsers(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke("sync-profiles-to-auth", {
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const apiKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+      const res = await fetch(`${supabaseUrl}/functions/v1/check-admin?action=sync-passwords`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": apiKey,
+          "Authorization": `Bearer ${apiKey}`,
+        },
       });
 
-      if (error) {
-        throw error;
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data?.error || "Erro desconhecido");
       }
 
       toast.success("Sincronização concluída", {
