@@ -16,11 +16,7 @@ export default function Login() {
   const { signIn, signUp, checkAdminRole } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isSyncingUsers, setIsSyncingUsers] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showSyncAction, setShowSyncAction] = useState(false);
-
-  const DEFAULT_SYNC_PASSWORD = "ReiDasBombas2024!";
 
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [signupData, setSignupData] = useState({ email: "", password: "", fullName: "" });
@@ -28,30 +24,18 @@ export default function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setShowSyncAction(false);
 
     try {
       // Limpar cache de admin antes de nova verificação
       sessionStorage.removeItem('admin_verified');
 
-      // Obter ID fresco direto do retorno do login (evita race condition com estado global)
       const { data, error } = await supabase.auth.signInWithPassword({
         email: loginData.email,
         password: loginData.password,
       });
 
       if (error) {
-        const isInvalidCredentials = error.message?.toLowerCase().includes("invalid login credentials");
-
-        if (isInvalidCredentials && loginData.password === DEFAULT_SYNC_PASSWORD) {
-          setShowSyncAction(true);
-          toast.error("Erro ao fazer login", {
-            description: "Usuário não sincronizado. Clique em 'Sincronizar usuários' abaixo e tente novamente.",
-          });
-        } else {
-          toast.error("Erro ao fazer login", { description: error.message });
-        }
-
+        toast.error("Erro ao fazer login", { description: error.message });
         return;
       }
 
@@ -94,39 +78,6 @@ export default function Login() {
     }
   };
 
-  const handleSyncUsers = async () => {
-    setIsSyncingUsers(true);
-
-    try {
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const apiKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
-
-      const res = await fetch(`${supabaseUrl}/functions/v1/check-admin?action=sync-passwords`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "apikey": apiKey,
-          "Authorization": `Bearer ${apiKey}`,
-        },
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data?.error || "Erro desconhecido");
-      }
-
-      toast.success("Sincronização concluída", {
-        description: `Senhas resetadas: ${data?.passwordReset ?? 0}. Tente entrar novamente.`,
-      });
-    } catch (error) {
-      toast.error("Erro ao sincronizar usuários", {
-        description: (error as Error).message,
-      });
-    } finally {
-      setIsSyncingUsers(false);
-    }
-  };
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -247,24 +198,6 @@ export default function Login() {
                       )}
                     </Button>
 
-                    {showSyncAction && (
-                      <Button
-                        type="button"
-                        variant="outline"
-                        className="w-full h-11"
-                        disabled={isSyncingUsers || isLoading}
-                        onClick={handleSyncUsers}
-                      >
-                        {isSyncingUsers ? (
-                          <>
-                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                            Sincronizando usuários...
-                          </>
-                        ) : (
-                          "Sincronizar usuários"
-                        )}
-                      </Button>
-                    )}
                   </form>
                 </TabsContent>
 
