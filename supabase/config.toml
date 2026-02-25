@@ -62,3 +62,6 @@ verify_jwt = false
 
 [functions.get-team-users]
 verify_jwt = false
+
+[functions.sync-profiles-to-auth]
+verify_jwt = false
