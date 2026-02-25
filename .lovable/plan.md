@@ -1,78 +1,59 @@
 
-# Melhorias na Pagina de Categoria
+# Sincronizar Usuarios da Tabela Profiles para Auth
 
-## O que sera feito
+## Problema
+Os logins nao estao funcionando porque existem registros na tabela `profiles` sem usuarios correspondentes na tabela `auth.users` do Supabase.
 
-### 1. Filtro de Categorias no Sidebar
+## Solucao
+Criar uma edge function administrativa que:
+1. Le todos os perfis da tabela `profiles`
+2. Para cada perfil que nao tenha um usuario auth valido, cria o usuario no `auth.users` com uma senha padrao
+3. Retorna um relatorio de quantos usuarios foram sincronizados
 
-Adicionar uma secao "Categorias" no topo do sidebar esquerdo, listando todas as 8 categorias com o nome e a contagem de produtos. A categoria atual fica destacada visualmente. Clicar em outra categoria navega para ela.
+## Plano de Implementacao
 
-### 2. Barra de Ordenacao
+### 1. Criar Edge Function `sync-profiles-to-auth`
 
-Adicionar uma barra entre o titulo e o grid de produtos com:
-- Contagem de produtos (ja existe, sera movida para ca)
-- Select de ordenacao com opcoes:
-  - Mais relevantes (padrao)
-  - Menor preco
-  - Maior preco
-  - Nome A-Z
-  - Nome Z-A
-  - Mais recentes
+Nova edge function em `supabase/functions/sync-profiles-to-auth/index.ts` que:
+- Usa o service role key para acessar auth.admin
+- Busca todos os perfis da tabela `profiles`
+- Para cada perfil, verifica se o usuario existe em auth.users (pelo `user_id`)
+- Se nao existir, cria o usuario com:
+  - Email baseado no nome ou documento (sera necessario ter email na profiles, ou perguntar ao usuario)
+  - Senha padrao: `ReiDasBombas2024!` (igual para todos)
+  - `email_confirm: true` para pular verificacao
+- Se existir mas a senha nao funcionar, reseta a senha para a padrao
 
-### 3. Contagem de produtos nos filtros
+**Problema potencial**: A tabela `profiles` nao tem coluna `email`. O email fica em `auth.users`. Se os usuarios nao existem em auth, nao temos email para criar.
 
-Mostrar ao lado de cada opcao de filtro (marca, tamanho) quantos produtos correspondem.
+### 2. Abordagem Alternativa (mais provavel)
+Se os usuarios ja existem em `auth.users` mas as senhas estao incorretas/esquecidas:
+- Criar edge function que lista todos os usuarios de auth.users
+- Reseta a senha de todos para uma senha padrao `ReiDasBombas2024!`
+- Garante que todos tenham `email_confirmed = true`
+
+### 3. Endpoint para chamar
+- Adicionar um botao temporario na pagina de admin ou chamar via curl
+- A function so pode ser chamada por um admin autenticado (ou usar service role diretamente)
 
 ## Detalhes Tecnicos
 
-### Arquivo: `src/pages/Category.tsx`
-
-**1. Novo estado de ordenacao:**
-
-```typescript
-const [sortBy, setSortBy] = useState("relevance");
+### Edge Function `sync-profiles-to-auth/index.ts`
+```text
+1. Recebe POST request (protegido por service role ou admin check)
+2. Busca todos profiles com seus user_ids
+3. Para cada user_id:
+   a. Tenta buscar usuario em auth via admin.getUserById
+   b. Se existir: reseta senha para "ReiDasBombas2024!"
+   c. Se nao existir: log de erro (sem email nao da pra criar)
+4. Retorna JSON com resultados
 ```
 
-**2. Secao de categorias no sidebar (antes de Faixa de Preco):**
+### Pagina Admin - Botao de Sync (temporario)
+- Adicionar botao na pagina admin/Users ou admin/Dashboard
+- Chama a edge function e mostra resultado via toast
 
-```typescript
-<div className="bg-card border border-border rounded-lg p-4">
-  <h3 className="font-bold text-foreground text-sm mb-4">Categorias</h3>
-  <div className="space-y-1">
-    {categories.map((cat) => (
-      <Link
-        key={cat.id}
-        to={`/categoria/${cat.slug}`}
-        className={`block px-3 py-2 text-sm rounded-md transition-colors ${
-          cat.slug === slug
-            ? "bg-primary/10 text-primary font-medium"
-            : "text-muted-foreground hover:text-foreground hover:bg-muted"
-        }`}
-      >
-        {cat.name}
-        <span className="text-xs ml-1 opacity-60">({cat.product_count})</span>
-      </Link>
-    ))}
-  </div>
-</div>
-```
-
-**3. Barra de ordenacao acima do grid:**
-
-Substituir o paragrafo simples de contagem por uma barra com Select de ordenacao usando o componente `Select` do shadcn/ui.
-
-**4. Logica de ordenacao no `useMemo` dos filteredProducts:**
-
-Apos filtrar, aplicar sort baseado no `sortBy`:
-- `price-asc`: menor preco primeiro
-- `price-desc`: maior preco primeiro
-- `name-asc`: nome A-Z
-- `name-desc`: nome Z-A
-- `newest`: mais recentes (por created_at)
-- `relevance`: ordem padrao (sem sort adicional)
-
-## Resumo de Alteracoes
-
-| Arquivo | O que muda |
-|---|---|
-| `src/pages/Category.tsx` | Adicionar filtro de categorias no sidebar, barra de ordenacao, e logica de sort |
+### Senha Padrao
+- Todos os usuarios terao a senha: `ReiDasBombas2024!`
+- Atende requisito minimo de 6 caracteres
+- Usuarios devem ser orientados a trocar a senha apos primeiro login
