@@ -1,0 +1,34 @@
+# Rei das Bombas - Robots.txt
+# https://reidasbombas.lovable.app
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://nvowplonglnamyxpuerw.supabase.co/functions/v1/sitemap
+
+# Disallow admin and account pages
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /conta
+Disallow: /conta/*
+Disallow: /checkout
+Disallow: /login
+Disallow: /logout
+
+# Allow search engines to index product and category pages
+Allow: /produto/*
+Allow: /categoria/*
+Allow: /promocoes

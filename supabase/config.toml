@@ -1,0 +1,64 @@
+project_id = "nvowplonglnamyxpuerw"
+
+[functions.create-payment-preference]
+verify_jwt = false
+
+[functions.mercadopago-webhook]
+verify_jwt = false
+
+[functions.calculate-shipping]
+verify_jwt = false
+
+[functions.track-order]
+verify_jwt = false
+
+[functions.send-order-email]
+verify_jwt = false
+
+[functions.process-payment]
+verify_jwt = false
+
+[functions.manage-saved-cards]
+verify_jwt = false
+
+[functions.check-payment-status]
+verify_jwt = false
+
+[functions.validate-coupon]
+verify_jwt = false
+
+[functions.sync-products]
+verify_jwt = false
+
+[functions.sync-from-hub]
+verify_jwt = false
+
+[functions.hub-listener]
+verify_jwt = false
+
+[functions.sync-order-to-hub]
+verify_jwt = false
+
+[functions.hub-tracking-update]
+verify_jwt = false
+
+[functions.sync-orders-from-hub]
+verify_jwt = false
+
+[functions.marketplace-attributes]
+verify_jwt = false
+
+[functions.admin-delete-user]
+verify_jwt = false
+
+[functions.check-admin]
+verify_jwt = false
+
+[functions.send-order-to-hub]
+verify_jwt = false
+
+[functions.admin-manage-user]
+verify_jwt = false
+
+[functions.get-team-users]
+verify_jwt = false

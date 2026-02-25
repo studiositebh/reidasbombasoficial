@@ -1,0 +1,322 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=optional');
+
+@tailwind base;
+
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+@tailwind components;
+@tailwind utilities;
+
+/* 
+  DESIGN SYSTEM - Rei das Bombas
+  Hybrid Theme: Dark Header + Light Body
+  Premium Industrial with Gold Accents
+*/
+
+@layer base {
+  :root {
+    /* Light Body Theme */
+    --background: 210 20% 98%;
+    --foreground: 220 15% 15%;
+
+    /* Cards - White */
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 15%;
+
+    /* Primary - Gold */
+    --primary: 37 45% 70%;
+    --primary-foreground: 220 15% 10%;
+
+    /* Secondary - Deep Navy (for header) */
+    --secondary: 220 60% 15%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Muted */
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 10% 45%;
+
+    /* Accent */
+    --accent: 220 14% 94%;
+    --accent-foreground: 220 15% 15%;
+
+    /* Destructive / Sale */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders - Light */
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 37 45% 70%;
+
+    --radius: 0.375rem;
+
+    /* Custom Tokens - Gold Luxury */
+    --gold: 37 45% 70%;
+    --gold-light: 37 50% 80%;
+    --gold-dark: 37 40% 55%;
+    --rich-black: 0 0% 4%;
+    --dark-slate: 220 15% 10%;
+    --charcoal: 220 10% 13%;
+    --sale-red: 0 72% 51%;
+    --success-green: 142 70% 45%;
+
+    /* Shadows for Light Theme */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1);
+    --shadow-gold: 0 4px 14px 0 hsl(37 45% 70% / 0.25);
+
+    /* Sidebar - Dark */
+    --sidebar-background: 220 15% 8%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 37 45% 70%;
+    --sidebar-primary-foreground: 0 0% 4%;
+    --sidebar-accent: 220 15% 15%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 220 10% 20%;
+    --sidebar-ring: 37 45% 70%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  /* Skeleton Animation */
+  .skeleton {
+    @apply animate-pulse bg-muted rounded;
+  }
+
+  /* Product Image Container - Performance optimized */
+  .product-image-container {
+    aspect-ratio: 1/1;
+    image-rendering: -webkit-optimize-contrast;
+    contain: layout style paint;
+  }
+
+  /* Product Card - Light Theme */
+  .product-card {
+    @apply bg-card border border-border transition-all duration-300 shadow-sm;
+    contain: layout style;
+  }
+
+  .product-card:hover {
+    @apply border-primary/50 shadow-md;
+    box-shadow: var(--shadow-gold);
+  }
+
+  /* Primary Gold Button */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground font-bold transition-all duration-200;
+  }
+
+  .btn-primary:hover {
+    @apply brightness-110;
+    box-shadow: var(--shadow-gold);
+  }
+
+  /* Gold Outline Button */
+  .btn-outline-gold {
+    @apply border-2 border-primary text-primary font-semibold bg-transparent hover:bg-primary hover:text-primary-foreground transition-all duration-200;
+  }
+
+  /* Ghost Button */
+  .btn-ghost {
+    @apply text-foreground/80 hover:text-primary hover:bg-primary/10 transition-all duration-200;
+  }
+
+  /* Technical Spec Badge */
+  .tech-badge {
+    @apply inline-flex items-center px-2 py-1 text-[10px] font-medium bg-muted text-muted-foreground rounded border border-border;
+  }
+
+  /* Container */
+  .container-custom {
+    @apply w-full max-w-[1400px] mx-auto px-4;
+  }
+
+  /* Top Bar - Dark */
+  .topbar {
+    @apply bg-[hsl(220,15%,8%)] text-white/80 text-xs py-2 border-b border-white/10;
+  }
+
+  /* Navigation Bar - Dark */
+  .navbar {
+    @apply bg-[hsl(220,15%,6%)] border-t border-white/10;
+  }
+
+  /* Sale Price */
+  .price-sale {
+    @apply text-[hsl(var(--sale-red))] font-black;
+  }
+
+  .price-old {
+    @apply text-muted-foreground line-through text-sm;
+  }
+
+  /* Trust Item - Light */
+  .trust-item {
+    @apply flex items-center gap-3 text-sm;
+  }
+
+  /* Category Quick Link - Light */
+  .category-quick {
+    @apply flex flex-col items-center gap-2 p-4 bg-card border border-border rounded-lg hover:border-primary/50 transition-all duration-300 cursor-pointer shadow-sm;
+  }
+
+  .category-quick:hover {
+    box-shadow: var(--shadow-gold);
+  }
+
+  /* Tabs */
+  .tab-button {
+    @apply px-4 py-2 text-sm font-semibold text-muted-foreground border-b-2 border-transparent transition-colors;
+  }
+
+  .tab-button.active {
+    @apply text-primary border-primary;
+  }
+
+  .tab-button:hover:not(.active) {
+    @apply text-foreground/80;
+  }
+
+  /* Glassmorphism Widget - for hero only */
+  .glass-widget {
+    @apply bg-black/70 backdrop-blur-md border border-primary/30 rounded-lg;
+  }
+
+  /* Section Title - Light Theme */
+  .section-title {
+    @apply text-xl md:text-2xl font-black text-foreground;
+  }
+
+  .section-title-gold {
+    @apply text-primary;
+  }
+
+  /* Star Rating */
+  .star-rating {
+    @apply flex items-center gap-0.5;
+  }
+
+  .star-rating svg {
+    @apply w-3 h-3;
+  }
+
+  /* Gold Divider */
+  .gold-divider {
+    @apply h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent;
+  }
+
+  /* Premium Badge */
+  .premium-badge {
+    @apply inline-flex items-center px-3 py-1 text-xs font-bold bg-primary text-primary-foreground rounded;
+  }
+
+  /* Header Dark Theme Override */
+  .header-dark {
+    @apply bg-[hsl(220,15%,5%)] text-white;
+  }
+
+  .header-dark .text-foreground {
+    @apply text-white;
+  }
+
+  .header-dark .text-muted-foreground {
+    @apply text-white/70;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Gold Text Gradient */
+  .text-gold-gradient {
+    @apply bg-gradient-to-r from-[hsl(37,50%,80%)] via-[hsl(37,45%,70%)] to-[hsl(37,40%,60%)] bg-clip-text text-transparent;
+  }
+
+  /* Fade in up animation */
+  .animate-fade-in-up {
+    animation: fade-in-up 0.5s ease-out;
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Safe area for iOS */
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Mobile Bottom Navigation */
+.mobile-bottom-nav {
+  @apply fixed bottom-0 left-0 right-0 bg-card border-t border-border z-50;
+  @apply flex items-center justify-around py-2 md:hidden;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+}
+
+.mobile-nav-item {
+  @apply flex flex-col items-center gap-0.5 text-muted-foreground transition-colors;
+  @apply text-[10px] font-medium active:scale-95;
+}
+
+.mobile-nav-item:hover,
+.mobile-nav-item:active {
+  @apply text-primary;
+}
+
+/* Mobile Product Bar */
+.mobile-product-bar {
+  @apply fixed bottom-0 left-0 right-0 bg-card border-t border-border z-50;
+  @apply flex items-center justify-between px-4 py-3 md:hidden;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
+  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+}
+
+/* Mobile content padding to avoid bottom bar overlap */
+.mobile-content-padding {
+  @apply pb-20 md:pb-0;
+}
