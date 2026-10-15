@@ -867,7 +867,7 @@ export function HubSettingsTab({ onSave, isSaving }: HubSettingsTabProps) {
           <div className="space-y-1">
             <Label className="text-xs text-muted-foreground">URL do Webhook</Label>
             <code className="block p-2 bg-muted rounded text-sm break-all">
-              https://nvowplonglnamyxpuerw.supabase.co/functions/v1/hub-listener
+              https://kpkxnqlrgkmgbbmishaw.supabase.co/functions/v1/hub-listener
             </code>
           </div>
           <div className="space-y-1">

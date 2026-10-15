@@ -17,7 +17,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://nvowplonglnamyxpuerw.supabase.co/functions/v1/sitemap
+Sitemap: https://kpkxnqlrgkmgbbmishaw.supabase.co/functions/v1/sitemap
 
 # Disallow admin and account pages
 Disallow: /admin
