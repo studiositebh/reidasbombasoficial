@@ -10,7 +10,7 @@ interface BreadcrumbSchemaProps {
   items: BreadcrumbItem[];
 }
 
-const SITE_URL = "https://reidasbombas.lovable.app";
+const SITE_URL = "https://reidasbombasoficial.com.br";
 
 /**
  * BreadcrumbSchema - Generates JSON-LD BreadcrumbList for SEO

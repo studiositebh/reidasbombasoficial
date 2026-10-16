@@ -287,7 +287,7 @@ Deno.serve(async (req) => {
 
           // Generate password reset link for new user
           try {
-            const baseUrl = "https://reidasbombas.lovable.app";
+            const baseUrl = "https://reidasbombasoficial.com.br";
             const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
               type: "recovery",
               email: payment_data.payer_email,

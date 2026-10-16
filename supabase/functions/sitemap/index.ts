@@ -5,7 +5,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const SITE_URL = "https://reidasbombas.lovable.app";
+const SITE_URL = "https://reidasbombasoficial.com.br";
 
 interface Product {
   slug: string;

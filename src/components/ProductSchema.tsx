@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import type { Product, Variant } from "@/types/database";
 import type { ProductRating, ProductReview } from "@/hooks/useProductReviews";
 
-const SITE_URL = "https://reidasbombas.lovable.app";
+const SITE_URL = "https://reidasbombasoficial.com.br";
 
 interface ProductSchemaProps {
   product: Product;

@@ -20,7 +20,7 @@ const formatOrderId = (orderId: string): string => {
 };
 
 const generateEmailHtml = (data: ShippingNotificationRequest): string => {
-  const baseUrl = "https://reidasbombas.lovable.app";
+  const baseUrl = "https://reidasbombasoficial.com.br";
   const trackingUrl = `${baseUrl}/rastrear?token=${data.tracking_token}`;
 
   return `

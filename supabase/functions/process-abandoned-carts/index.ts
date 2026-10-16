@@ -79,7 +79,7 @@ Deno.serve(async (req) => {
           body: JSON.stringify({
             email: lead.email,
             name: lead.name,
-            link: "https://reidasbombas.lovable.app/checkout",
+            link: "https://reidasbombasoficial.com.br/checkout",
             lead_id: lead.id,
           }),
         });

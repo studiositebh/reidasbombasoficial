@@ -1,5 +1,5 @@
 # Rei das Bombas - Robots.txt
-# https://reidasbombas.lovable.app
+# https://reidasbombasoficial.com.br
 
 User-agent: Googlebot
 Allow: /

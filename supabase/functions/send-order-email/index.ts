@@ -83,7 +83,7 @@ const generateNewUserSection = (passwordResetLink: string): string => {
 };
 
 const generateOrderReceivedHtml = (data: OrderEmailRequest): string => {
-  const baseUrl = "https://reidasbombas.lovable.app";
+  const baseUrl = "https://reidasbombasoficial.com.br";
   const trackingUrl = `${baseUrl}/rastrear?token=${data.tracking_token}`;
   const items = data.items || [];
 
@@ -212,7 +212,7 @@ const generateOrderReceivedHtml = (data: OrderEmailRequest): string => {
 };
 
 const generatePaymentConfirmedHtml = (data: OrderEmailRequest): string => {
-  const baseUrl = "https://reidasbombas.lovable.app";
+  const baseUrl = "https://reidasbombasoficial.com.br";
   const trackingUrl = `${baseUrl}/rastrear?token=${data.tracking_token}`;
   const items = data.items || [];
   const paymentMethodLabel = getPaymentMethodLabel(data.payment_method);

@@ -247,7 +247,7 @@ export default function ProductDetail() {
   const isBackorder = isOutOfStock && ALLOW_BACKORDER;
   const canPurchase = selectedVariant && (selectedVariant.stock_level > 0 || ALLOW_BACKORDER);
 
-  const productImage = product.image_url || "https://reidasbombas.lovable.app/og-image.png";
+  const productImage = product.image_url || "https://reidasbombasoficial.com.br/og-image.png";
   const productDescription = product.description || `${product.title} - Peças e equipamentos para postos de combustível.`;
 
   return (

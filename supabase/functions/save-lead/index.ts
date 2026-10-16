@@ -23,7 +23,7 @@ const generateContactNotificationHtml = (data: {
   phone?: string;
   message?: string;
 }): string => {
-  const baseUrl = "https://reidasbombas.lovable.app";
+  const baseUrl = "https://reidasbombasoficial.com.br";
   const leadsUrl = `${baseUrl}/admin/leads`;
 
   return `

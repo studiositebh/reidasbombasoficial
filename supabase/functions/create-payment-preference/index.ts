@@ -172,7 +172,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const baseUrl = "https://reidasbombas.lovable.app";
+    const baseUrl = "https://reidasbombasoficial.com.br";
     const webhookUrl = `${supabaseUrl}/functions/v1/mercadopago-webhook`;
 
     const preference = {

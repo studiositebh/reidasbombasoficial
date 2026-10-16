@@ -67,7 +67,7 @@ const getStatusConfig = (status: string): { color: string; bgColor: string; bord
 };
 
 const generateAdminNotificationHtml = (data: AdminNotificationRequest): string => {
-  const baseUrl = "https://reidasbombas.lovable.app";
+  const baseUrl = "https://reidasbombasoficial.com.br";
   const orderUrl = `${baseUrl}/admin/orders/${data.order_id}`;
   const statusConfig = getStatusConfig(data.status);
   const paymentMethodLabel = getPaymentMethodLabel(data.payment_method);

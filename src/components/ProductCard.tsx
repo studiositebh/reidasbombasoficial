@@ -7,7 +7,7 @@ import { getAttributeEntries } from "@/lib/formatAttributes";
 import type { Product, Variant } from "@/types/database";
 import { useState } from "react";
 
-const SITE_URL = "https://reidasbombas.lovable.app";
+const SITE_URL = "https://reidasbombasoficial.com.br";
 
 interface ProductCardProps {
   product: Product;

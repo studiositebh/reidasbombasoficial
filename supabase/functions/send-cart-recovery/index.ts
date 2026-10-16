@@ -44,7 +44,7 @@ Deno.serve(async (req) => {
     }
 
     // Default checkout link
-    const checkoutLink = link || "https://reidasbombas.lovable.app/checkout";
+    const checkoutLink = link || "https://reidasbombasoficial.com.br/checkout";
     const firstName = name.split(" ")[0];
 
     // Beautiful HTML email template
